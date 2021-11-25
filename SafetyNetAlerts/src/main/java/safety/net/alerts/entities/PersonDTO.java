@@ -1,5 +1,13 @@
 package safety.net.alerts.entities;
 
+/**
+ * 
+ * implementation of business data transfer object: person that will be
+ * manipulated by the other layers.
+ *
+ * the person data transfer object has five attribute : address, city, zip,
+ * phone and email
+ */
 public class PersonDTO {
 	private String address;
 	private String city;

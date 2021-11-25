@@ -1,5 +1,11 @@
 package safety.net.alerts.entities;
-
+/**
+ * 
+ * implementation of business data transfer object: fire station that will be manipulated by
+ * the other layers.
+ *
+ * the fire station data transfer object has two attributes : address and station
+ */
 public class FireStationDTO {
 	private String station;
 	private String address;

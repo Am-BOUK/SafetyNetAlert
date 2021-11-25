@@ -2,10 +2,27 @@ package safety.net.alerts.entities;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
+/**
+ * 
+ * implementation of business object: medical record that will be manipulated by
+ * the other layers.
+ *
+ * the medical record object has five attribute : first name, last name,
+ * birthdate, medications and allergies
+ */
 public class MedicalRecord {
+
+	@NotBlank(message = "First name is mandatory")
 	private String firstName;
+
+	@NotBlank(message = "Last name is mandatory")
 	private String lastName;
+
+	@NotBlank(message = "birthdate is mandatory")
 	private String birthdate;
+
 	private List<String> medications;
 	private List<String> allergies;
 

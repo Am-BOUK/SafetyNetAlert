@@ -1,25 +1,36 @@
 package safety.net.alerts.entities;
 
-public class Person {
-	private String firstName;
-	private String lastName;
-	private String address;
-	private String city;
-	private String zip;
-	private String phone;
-	private String email;
+import javax.validation.constraints.NotBlank;
 
-//	public Person(String firstName, String lastName, String address, String city, String zip, String phone,
-//			String email) {
-//		super();
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.address = address;
-//		this.city = city;
-//		this.zip = zip;
-//		this.phone = phone;
-//		this.email = email;
-//	}
+/**
+ * 
+ * implementation of business object: person that will be manipulated by the
+ * other layers.
+ *
+ * the person data has seven attribute : first name, last name, address, city,
+ * zip, phone and email
+ */
+public class Person {
+	@NotBlank(message = "First name is mandatory")
+	private String firstName;
+
+	@NotBlank(message = "Last name is mandatory")
+	private String lastName;
+
+	@NotBlank(message = "Address is mandatory")
+	private String address;
+
+	@NotBlank(message = "City is mandatory")
+	private String city;
+
+	@NotBlank(message = "Zip is mandatory")
+	private String zip;
+
+	@NotBlank(message = "Phone is mandatory")
+	private String phone;
+
+	@NotBlank(message = "Email is mandatory")
+	private String email;
 
 	public String getFirstName() {
 		return firstName;

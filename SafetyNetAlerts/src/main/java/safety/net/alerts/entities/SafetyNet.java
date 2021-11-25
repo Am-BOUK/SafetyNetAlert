@@ -2,6 +2,14 @@ package safety.net.alerts.entities;
 
 import java.util.List;
 
+/**
+ * 
+ * implementation of business object: safety net that will be manipulated by the
+ * other layers.
+ *
+ * the safety net has three attribute : list of persons, list of medical records
+ * and list of fire stations
+ */
 public class SafetyNet {
 	private List<Person> persons;
 	private List<MedicalRecord> medicalrecords;
@@ -30,11 +38,11 @@ public class SafetyNet {
 	public void setFirestations(List<FireStation> firestations) {
 		this.firestations = firestations;
 	}
-
-	@Override
-	public String toString() {
-		return "[persons = " + persons + ", firestations = " + firestations + ", medicalrecords = "
-				+ medicalrecords + "]";
-	}
+//
+//	@Override
+//	public String toString() {
+//		return "[persons = " + persons + ", firestations = " + firestations + ", medicalrecords = " + medicalrecords
+//				+ "]";
+//	}
 
 }
