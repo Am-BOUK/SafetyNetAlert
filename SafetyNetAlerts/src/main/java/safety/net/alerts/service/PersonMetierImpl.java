@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import safety.net.alerts.dao.IPersonRepository;
-import safety.net.alerts.entities.FireStation;
 import safety.net.alerts.entities.Person;
 import safety.net.alerts.entities.PersonDTO;
 

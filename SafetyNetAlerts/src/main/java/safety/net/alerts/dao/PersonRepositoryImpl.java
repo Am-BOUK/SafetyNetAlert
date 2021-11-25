@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import safety.net.alerts.entities.FireStation;
 import safety.net.alerts.entities.Person;
 import safety.net.alerts.entities.SafetyNet;
 

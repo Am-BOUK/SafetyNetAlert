@@ -54,6 +54,16 @@ class FireStationControllerIT {
 	public void testGetListFireStationByAddress_whenAddressExists() throws Exception {
 		assertFalse(fireStationRestService.getListFireStationByAddress("st").isEmpty());
 	}
+	
+	@Test
+	public void testGetListFireStation_whenMFireStationDoesNotExist() throws Exception {
+		try {
+			fireStationRestService.getListFireStationByAddress("toto");
+		} catch (Exception e) {
+			assertTrue(e instanceof RuntimeException);
+			assertTrue(e.getMessage().contains("The fire station of the address toto, you want to get, is empty !"));
+		}
+	}
 
 	@Test
 	public void testAddFireStation_whenAddressDoesNotExist() throws Exception {
