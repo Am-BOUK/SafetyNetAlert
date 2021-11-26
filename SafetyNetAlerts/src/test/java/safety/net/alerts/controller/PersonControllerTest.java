@@ -84,10 +84,10 @@ class PersonControllerTest {
 
 	@Test
 	public void updatePersonTest_whenPersonExists_shouldReturnOK() throws Exception {
-		String person = "{\"address\":\"test\",\"zip\" : \"test\", \"test\":\"Paris\",\"phone\":\"11111111\",\"email\" : \"rostow@domain.com\"}";
+		String person = "{\"firstName\": \"Rostow\",\"lastName\": \"Gokeng\",\"address\":\"modified\",\"zip\" : \"modified\", \"city\":\"Paris\",\"phone\":\"11111111\",\"email\" : \"rostow@domain.com\"}";
 		mockMvc.perform(MockMvcRequestBuilders.put("/person?firstName=Rostow&lastName=Gokeng").content(person)
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(jsonPath("$.address", is("test"))).andExpect(jsonPath("$.phone", is("11111111")));
+				.andExpect(jsonPath("$.address", is("modified"))).andExpect(jsonPath("$.phone", is("11111111")));
 	}
 
 	@Test

@@ -43,7 +43,7 @@ public class MedicalRecordControllerIT {
 			medicalRecordRestService.getMedicalRecord("toto", "toto");
 		} catch (Exception e) {
 			assertTrue(e instanceof RuntimeException);
-			assertTrue(e.getMessage().contains("The medical record you want to delete of toto toto does not exist !"));
+			assertTrue(e.getMessage().contains("The medical record you want getting of the person : toto toto ,does not exists !"));
 		}
 	}
 
@@ -58,7 +58,7 @@ public class MedicalRecordControllerIT {
 			medicalRecordRestService.getListPersonByFirstNameAndLastName("toto", "toto");
 		} catch (Exception e) {
 			assertTrue(e instanceof RuntimeException);
-			assertTrue(e.getMessage().contains("The medical record you want to delete of toto toto does not exist !"));
+			assertTrue(e.getMessage().contains("The list of its medical record of toto toto, you want to get, is empty !"));
 		}
 	}
 

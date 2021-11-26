@@ -108,7 +108,7 @@ class MedicalRecordControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/medicalRecord").content(medicalRecord)
 				.contentType(MediaType.APPLICATION_JSON));
 
-		String medicalRecordDTO = "{\"medications\":[\"test:500mg\"]}";
+		String medicalRecordDTO = "{\"medications\":[\"test:500mg\"],\"allergies\":[\"pollen\"]}";
 		mockMvc.perform(MockMvcRequestBuilders.put("/medicalRecord?firstName=Rostow&lastName=Rostow")
 				.content(medicalRecordDTO).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(jsonPath("$.birthdate", is("03/06/1984")))

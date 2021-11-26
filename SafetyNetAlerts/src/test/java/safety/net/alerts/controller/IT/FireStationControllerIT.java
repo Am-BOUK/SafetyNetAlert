@@ -39,7 +39,7 @@ class FireStationControllerIT {
 	}
 
 	@Test
-	public void testGetFireStation_whenAddressDoesNotExist() throws Exception {
+	public void testGetFireStation_whenAddressDoesNotExist() {
 		try {
 			fireStationRestService.getFireStation("toto");
 		} catch (Exception e) {
@@ -54,9 +54,9 @@ class FireStationControllerIT {
 	public void testGetListFireStationByAddress_whenAddressExists() throws Exception {
 		assertFalse(fireStationRestService.getListFireStationByAddress("st").isEmpty());
 	}
-	
+
 	@Test
-	public void testGetListFireStation_whenMFireStationDoesNotExist() throws Exception {
+	public void testGetListFireStation_whenMFireStationDoesNotExist() {
 		try {
 			fireStationRestService.getListFireStationByAddress("toto");
 		} catch (Exception e) {
@@ -75,13 +75,10 @@ class FireStationControllerIT {
 	}
 
 	@Test
-	public void testAddFireStation_whenAddressExists() throws Exception {
-
+	public void testAddFireStation_whenAddressExists() {
 		try {
 			testAddFireStation_whenAddressDoesNotExist();
-
-			// THEN
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			assertTrue(e instanceof RuntimeException);
 			assertTrue(e.getMessage().contains(
 					"the fire station you want to add : [address = integration, station = test], Already exist !"));
@@ -96,7 +93,7 @@ class FireStationControllerIT {
 	}
 
 	@Test
-	public void testUpdateFireStation_whenAddressDoesNotExists() throws Exception {
+	public void testUpdateFireStation_whenAddressDoesNotExists() {
 		fireStationDTO.setStation("modified");
 		try {
 			fireStationRestService.updateFireStation("toto", fireStationDTO);
@@ -114,7 +111,7 @@ class FireStationControllerIT {
 	}
 
 	@Test
-	public void testDeleteFireStation_whenAddressDosNotExist() throws Exception {
+	public void testDeleteFireStation_whenAddressDosNotExist() {
 		try {
 			fireStationRestService.deleteFireStation("toto");
 		} catch (Exception e) {
