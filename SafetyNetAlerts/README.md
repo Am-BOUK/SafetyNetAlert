@@ -18,10 +18,6 @@ Java 1.8
 
 Maven 3.6.3
 
-Spring Boot
-
-Log4j
-
 
 ###Installing
 
@@ -38,10 +34,13 @@ https://maven.apache.org/install.html
 
 ###Running App
 
-JSON file is present under the resources folder in the code base.
+* JSON file is present under the resources folder in the code base.
 
-Finally, you will be ready to import the code into an IDE of your choice and run the App.java to launch the application.
+* To have the jar file in the target folder :
+	-mvn clean package
 
+* launch the application with the java -jar "path to the .jar" command
+	-java -jar "path to the .jar"
 
 ###Testing
 
