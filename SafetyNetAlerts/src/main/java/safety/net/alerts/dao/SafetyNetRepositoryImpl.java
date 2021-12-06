@@ -47,8 +47,6 @@ public class SafetyNetRepositoryImpl implements ISafetyNetRepository {
 		ObjectMapper om = new ObjectMapper();
 			File jsonFile = new File(fileName);
 			safetyNet = om.readValue(jsonFile, SafetyNet.class);
-		
-
 		return safetyNet;
 
 	}

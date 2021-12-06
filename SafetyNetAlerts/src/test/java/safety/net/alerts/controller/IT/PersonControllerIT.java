@@ -9,15 +9,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpHeaders;
 
-import safety.net.alerts.SafetyNetAlertsApplication;
 import safety.net.alerts.controller.PersonRestService;
 import safety.net.alerts.entities.Person;
 import safety.net.alerts.entities.PersonDTO;
 
-@SpringBootTest(classes = SafetyNetAlertsApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 class PersonControllerIT {
 
 	@Autowired
@@ -42,7 +40,7 @@ class PersonControllerIT {
 		try {
 			personRestService.getPerson("toto", "toto");
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(e.getMessage().contains("The person toto toto, you want to get, does not exist !"));
 		}
 	}
@@ -73,8 +71,8 @@ class PersonControllerIT {
 			testAddPerson_whenPersonDoesNotExist();
 
 			// THEN
-		} catch (RuntimeException e) {
-			assertTrue(e instanceof RuntimeException);
+		} catch (Exception e) {
+			assertTrue(e instanceof Exception);
 			assertTrue(e.getMessage().contains("The person integration test you want to add, already exists !"));
 		}
 	}
@@ -92,7 +90,7 @@ class PersonControllerIT {
 		try {
 			personRestService.updatePerson("toto", "toto", personDTO);
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(e.getMessage().contains("The person toto toto you want to update, does not exist !"));
 		}
 	}
@@ -109,7 +107,7 @@ class PersonControllerIT {
 		try {
 			personRestService.deletePersonByName("toto", "toto");
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(e.getMessage().contains("The person toto toto you want to delete, does not exist !"));
 		}
 	}

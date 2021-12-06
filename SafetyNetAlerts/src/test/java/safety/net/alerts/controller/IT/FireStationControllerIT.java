@@ -7,17 +7,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpHeaders;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import safety.net.alerts.SafetyNetAlertsApplication;
 import safety.net.alerts.controller.FireStationRestService;
 import safety.net.alerts.entities.FireStation;
 import safety.net.alerts.entities.FireStationDTO;
 
-@SpringBootTest(classes = SafetyNetAlertsApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest
+@RunWith(SpringRunner.class)
 class FireStationControllerIT {
 
 	@Autowired
@@ -43,7 +44,7 @@ class FireStationControllerIT {
 		try {
 			fireStationRestService.getFireStation("toto");
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(
 					e.getMessage().contains("The fire station of the address toto, you want to get, does not exist !"));
 		}
@@ -60,7 +61,7 @@ class FireStationControllerIT {
 		try {
 			fireStationRestService.getListFireStationByAddress("toto");
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(e.getMessage().contains("The fire station of the address toto, you want to get, is empty !"));
 		}
 	}
@@ -79,7 +80,7 @@ class FireStationControllerIT {
 		try {
 			testAddFireStation_whenAddressDoesNotExist();
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(e.getMessage().contains(
 					"the fire station you want to add : [address = integration, station = test], Already exist !"));
 		}
@@ -98,7 +99,7 @@ class FireStationControllerIT {
 		try {
 			fireStationRestService.updateFireStation("toto", fireStationDTO);
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(
 					e.getMessage().contains("Fire station of the address : toto you want to update, does not exist !"));
 		}
@@ -115,7 +116,7 @@ class FireStationControllerIT {
 		try {
 			fireStationRestService.deleteFireStation("toto");
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(
 					e.getMessage().contains("Fire station of the address : toto you want to delete, does not exist !"));
 		}

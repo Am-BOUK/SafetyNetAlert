@@ -7,8 +7,8 @@ import java.util.List;
  * implementation of business data transfer object: medical record that will be
  * manipulated by the other layers.
  *
- * the medical record data transfer object has five attribute : first name, last
- * name, birthdate, medications and allergies
+ * the medical record data transfer object has three attribute : birthdate,
+ * medications and allergies
  */
 public class MedicalRecordDTO {
 	private String birthdate;

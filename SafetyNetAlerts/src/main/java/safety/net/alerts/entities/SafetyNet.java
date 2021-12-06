@@ -38,11 +38,5 @@ public class SafetyNet {
 	public void setFirestations(List<FireStation> firestations) {
 		this.firestations = firestations;
 	}
-//
-//	@Override
-//	public String toString() {
-//		return "[persons = " + persons + ", firestations = " + firestations + ", medicalrecords = " + medicalrecords
-//				+ "]";
-//	}
 
 }

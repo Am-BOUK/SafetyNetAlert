@@ -9,15 +9,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpHeaders;
 
-import safety.net.alerts.SafetyNetAlertsApplication;
 import safety.net.alerts.controller.MedicalRecordRestService;
 import safety.net.alerts.entities.MedicalRecord;
 import safety.net.alerts.entities.MedicalRecordDTO;
 
-@SpringBootTest(classes = SafetyNetAlertsApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 public class MedicalRecordControllerIT {
 
 	@Autowired
@@ -42,8 +40,9 @@ public class MedicalRecordControllerIT {
 		try {
 			medicalRecordRestService.getMedicalRecord("toto", "toto");
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
-			assertTrue(e.getMessage().contains("The medical record you want getting of the person : toto toto ,does not exists !"));
+			assertTrue(e instanceof Exception);
+			assertTrue(e.getMessage()
+					.contains("The medical record you want getting of the person : toto toto ,does not exists !"));
 		}
 	}
 
@@ -57,8 +56,9 @@ public class MedicalRecordControllerIT {
 		try {
 			medicalRecordRestService.getListPersonByFirstNameAndLastName("toto", "toto");
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
-			assertTrue(e.getMessage().contains("The list of its medical record of toto toto, you want to get, is empty !"));
+			assertTrue(e instanceof Exception);
+			assertTrue(e.getMessage()
+					.contains("The list of its medical record of toto toto, you want to get, is empty !"));
 		}
 	}
 
@@ -78,7 +78,7 @@ public class MedicalRecordControllerIT {
 		try {
 			testAddMedicalRecord_whenMedicalRecordDoesNotExist();
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(
 					e.getMessage().contains("the medical record you want to add of Rostow Gokeng , already exists !"));
 		}
@@ -97,7 +97,7 @@ public class MedicalRecordControllerIT {
 		try {
 			medicalRecordRestService.updateMedicalRecord("toto", "toto", medicalRecordDTO);
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(e.getMessage().contains("The medical record you want to update of toto toto does not exist !"));
 		}
 	}
@@ -114,7 +114,7 @@ public class MedicalRecordControllerIT {
 		try {
 			medicalRecordRestService.deleteMedicalRecord("toto", "toto");
 		} catch (Exception e) {
-			assertTrue(e instanceof RuntimeException);
+			assertTrue(e instanceof Exception);
 			assertTrue(e.getMessage().contains("The medical record you want to delete of toto toto does not exist !"));
 		}
 	}

@@ -1,13 +1,6 @@
 package safety.net.alerts.service;
 
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +16,7 @@ import safety.net.alerts.dao.IPersonRepository;
 import safety.net.alerts.entities.FireStation;
 import safety.net.alerts.entities.MedicalRecord;
 import safety.net.alerts.entities.Person;
+import safety.net.alerts.util.AgeCalculator;
 
 /**
  * implementation of safety net alert business processing
@@ -95,21 +89,11 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 						 * Get birthdate of the person by using his medical record.
 						 */
 						String birthdate = medicalRecordFound.getBirthdate();
-						/**
-						 * Convert birthdate string to date
-						 */
-						SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-						Date date = formatter.parse(birthdate);
-						Instant instant = date.toInstant();
-						ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
-						LocalDate givenDate = zone.toLocalDate();
-						Period period = Period.between(givenDate, LocalDate.now());
 
-						if (period.getYears() > 18) {
-							adultCount++;
-
-						} else {
+						if (AgeCalculator.isChild(birthdate)) {
 							childCount++;
+						} else {
+							adultCount++;
 						}
 					}
 				}
@@ -117,7 +101,7 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 		}
 		if (personByStation.isEmpty()) {
 			logger.info("The fire station number : " + station + " , does not exist !");
-			throw new RuntimeException("The fire station number : " + station + " , does not exist !");
+			throw new Exception("The fire station number : " + station + " , does not exist !");
 		} else {
 			personByStation.put("Person count ", personCount);
 			personByStation.get("Person count ").add("Adult count " + Integer.toString(adultCount));
@@ -165,29 +149,20 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 				 * Get birthdate of the child by using his medical record.
 				 */
 				String birthdate = medicalRecordFound.getBirthdate();
-				/**
-				 * Convert birthdate string to date
-				 */
-				SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-				Date date = formatter.parse(birthdate);
-				Instant instant = date.toInstant();
-				ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
-				LocalDate givenDate = zone.toLocalDate();
-				Period period = Period.between(givenDate, LocalDate.now());
 
-				if (period.getYears() <= 18) {
+				if (AgeCalculator.agePerson(birthdate) <= 18) {
 
 					childKey = (person.getFirstName() + " " + person.getLastName() + " "
-							+ Integer.toString(period.getYears()) + " ans");
+							+ Integer.toString(AgeCalculator.agePerson(birthdate)) + " ans");
 					childFamilyMap.put(childKey, childFamily);
 
-				} else if (period.getYears() > 18) {
+				} else {
 					childFamily.add(person);
 				}
 			}
 		}
 		if (childFamilyMap.isEmpty()) {
-			throw new RuntimeException("No child in address :" + address);
+			throw new Exception("No child in address :" + address);
 		} else {
 			logger.info("Success Getting list of family child information in address :" + address);
 			return childFamilyMap;
@@ -209,7 +184,6 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 		logger.info("Getting a list of all phone numbers of the persons covered by the corresponding fire station  : "
 				+ station);
 
-		// initialize variables
 		Map<String, List<String>> personByStation = new HashMap<String, List<String>>();
 		List<Person> persons = personRepository.getAllPersons();
 		List<FireStation> fireStations = fireStationRepository.getAllFireStations();
@@ -225,19 +199,17 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 				for (Person person : persons) {
 					if (person.getAddress().equalsIgnoreCase(address)) {
 						personByStation.get(stationKey).add(person.getPhone());
-
 					}
 				}
 			}
 		}
 		if (personByStation.isEmpty()) {
 			logger.info("The fire station number : " + station + " , does not exist !");
-			throw new RuntimeException("The fire station number : " + station + " , does not exist !");
+			throw new Exception("The fire station number : " + station + " , does not exist !");
 		} else {
 			logger.info(
 					"Success Getting a list of all phone numbers of the persons covered by the corresponding fire station  : "
 							+ station);
-
 			return personByStation;
 		}
 	}
@@ -271,7 +243,7 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 				station = fireStation.getStation();
 				keyMap = "Address : " + address + ", Sation Number :" + station;
 				List<String> value = new ArrayList<String>();
-				
+
 				for (Person person : persons) {
 					if (person.getAddress().equalsIgnoreCase(address)) {
 
@@ -283,25 +255,16 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 								.keySet().stream().findFirst().get();
 						MedicalRecord medicalRecordFound = medicalRecordRepository.getMedicalRecord(index);
 						/**
-						 * Get birthdate of the child by using his medical record.
+						 * Get birthdate of the person by using his medical record.
 						 */
 						String birthdate = medicalRecordFound.getBirthdate();
-						/**
-						 * Convert birthdate string to date
-						 */
-						SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-						Date date = formatter.parse(birthdate);
-						Instant instant = date.toInstant();
-						ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
-						LocalDate givenDate = zone.toLocalDate();
-						Period period = Period.between(givenDate, LocalDate.now());
 
 						value.add("First name : " + person.getFirstName());
 						value.add("Last name : " + person.getLastName());
 						value.add("Medications : " + medicalRecordFound.getMedications());
 						value.add("Allergies : " + medicalRecordFound.getAllergies());
 						value.add("Phone number : " + person.getPhone());
-						value.add("Age : " + period.getYears());
+						value.add("Age : " + AgeCalculator.agePerson(birthdate));
 						personByAddressMap.put(keyMap, value);
 					}
 				}
@@ -311,7 +274,7 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 		if (personByAddressMap.isEmpty()) {
 
 			logger.info("The address : " + address + " , does not exist !");
-			throw new RuntimeException("The address : " + address + " , does not exist !");
+			throw new Exception("The address : " + address + " , does not exist !");
 
 		} else {
 			logger.info("Success getting a list of all persons living at the address : " + address);
@@ -362,36 +325,25 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 									.keySet().stream().findFirst().get();
 							MedicalRecord medicalRecordFound = medicalRecordRepository.getMedicalRecord(index);
 							/**
-							 * Get birthdate of the child by using his medical record.
+							 * Get birthdate of the person by using his medical record.
 							 */
 							String birthdate = medicalRecordFound.getBirthdate();
-							/**
-							 * Convert birthdate string to date
-							 */
-							SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-							Date date = formatter.parse(birthdate);
-							Instant instant = date.toInstant();
-							ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
-							LocalDate givenDate = zone.toLocalDate();
-							Period period = Period.between(givenDate, LocalDate.now());
 
 							personByStation.get(keyMap).add("First name : " + person.getFirstName());
 							personByStation.get(keyMap).add("Last name : " + person.getLastName());
 							personByStation.get(keyMap).add("Medications : " + medicalRecordFound.getMedications());
 							personByStation.get(keyMap).add("Allergies : " + medicalRecordFound.getAllergies());
 							personByStation.get(keyMap).add("Phone number : " + person.getPhone());
-							personByStation.get(keyMap).add("Age : " + period.getYears());
+							personByStation.get(keyMap).add("Age : " + AgeCalculator.agePerson(birthdate));
 						}
 					}
 				}
 			}
-
 		}
 		if (personByStation.isEmpty()) {
 
 			logger.info("The fire stations of numbers : " + stations + " , does not exist !");
-			throw new RuntimeException("The fire of station numbers : " + stations + " , does not exist !");
-
+			throw new Exception("The fire of station numbers : " + stations + " , does not exist !");
 		} else {
 			logger.info("Success getting a list of all the addresses served by the list of fire stations number : "
 					+ stations);
@@ -439,20 +391,11 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 						.stream().findFirst().get();
 				MedicalRecord medicalRecordFound = medicalRecordRepository.getMedicalRecord(index);
 				/**
-				 * Get birthdate of the child by using his medical record.
+				 * Get birthdate of the person by using his medical record.
 				 */
 				String birthdate = medicalRecordFound.getBirthdate();
-				/**
-				 * Convert birthdate string to date
-				 */
-				SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-				Date date = formatter.parse(birthdate);
-				Instant instant = date.toInstant();
-				ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
-				LocalDate givenDate = zone.toLocalDate();
-				Period period = Period.between(givenDate, LocalDate.now());
 
-				personsInfoList.add("Age : " + period.getYears());
+				personsInfoList.add("Age : " + AgeCalculator.agePerson(birthdate));
 				personsInfoList.add("Email address : " + person.getEmail());
 				personsInfoList.add("Medications : " + medicalRecordFound.getMedications());
 				personsInfoList.add("Allergies : " + medicalRecordFound.getAllergies());
@@ -461,8 +404,7 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 			}
 		}
 		if (personsInfoMap.isEmpty()) {
-			throw new RuntimeException(
-					"The list of person " + firstName + " " + lastName + ", you want to get, is empty !");
+			throw new Exception("The list of person " + firstName + " " + lastName + ", you want to get, is empty !");
 		} else {
 			logger.info("Success  list of all person contains: " + firstName + " as first name and " + lastName
 					+ " as last name");
@@ -502,7 +444,7 @@ public class SafetyNetAlertMetierImpl implements ISafetyNetAlertMetier {
 
 		if (emailsByCityMap.isEmpty()) {
 			logger.info("The city : " + city + " , does not exist !");
-			throw new RuntimeException("The city : " + city + " , does not exist !");
+			throw new Exception("The city : " + city + " , does not exist !");
 		} else {
 			logger.info("Success Getting a list of all email addresses by the city  : " + city);
 

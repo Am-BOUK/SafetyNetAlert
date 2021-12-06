@@ -50,7 +50,7 @@ public class FireStationMetierImpl implements IFireStationMetier {
 		} else {
 
 			logger.info("Fire station of the address : " + address + " you want to get, does not exist !");
-			throw new RuntimeException(
+			throw new Exception(
 					"The fire station of the address " + address + ", you want to get, does not exist !");
 		}
 
@@ -78,7 +78,7 @@ public class FireStationMetierImpl implements IFireStationMetier {
 		}
 		if (fireStationList.isEmpty()) {
 			logger.info("The fire station of the address " + address + ", you want to get, is empty !");
-			throw new RuntimeException("The fire station of the address " + address + ", you want to get, is empty !");
+			throw new Exception("The fire station of the address " + address + ", you want to get, is empty !");
 		}
 		return fireStationList;
 	}
@@ -102,7 +102,7 @@ public class FireStationMetierImpl implements IFireStationMetier {
 			return fireStationRepository.addFireStation(fireStation);
 		} else {
 			logger.info("the fire station you want to add : " + fireStation + ", Already exist !");
-			throw new RuntimeException("the fire station you want to add : " + fireStation + ", Already exist !");
+			throw new Exception("the fire station you want to add : " + fireStation + ", Already exist !");
 		}
 	}
 
@@ -135,7 +135,7 @@ public class FireStationMetierImpl implements IFireStationMetier {
 		} else {
 
 			logger.info("Fire station of the address : " + address + " you want to update, does not exist !");
-			throw new RuntimeException(
+			throw new Exception(
 					"Fire station of the address : " + address + " you want to update, does not exist !");
 
 		}
@@ -162,7 +162,7 @@ public class FireStationMetierImpl implements IFireStationMetier {
 		} else {
 
 			logger.info("Fire station of the address : " + address + " you want to delete, does not exist !");
-			throw new RuntimeException(
+			throw new Exception(
 					"Fire station of the address : " + address + " you want to delete, does not exist !");
 		}
 	}

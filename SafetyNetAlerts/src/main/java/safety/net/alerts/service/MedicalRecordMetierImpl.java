@@ -52,7 +52,7 @@ public class MedicalRecordMetierImpl implements IMedicalRecordMetier {
 		} else {
 			logger.info("The medical record you want getting of the person : " + firstName + " " + lastName
 					+ " ,does not exists !");
-			throw new RuntimeException("The medical record you want getting of the person : " + firstName + " "
+			throw new Exception("The medical record you want getting of the person : " + firstName + " "
 					+ lastName + " ,does not exists !");
 		}
 	}
@@ -86,7 +86,7 @@ public class MedicalRecordMetierImpl implements IMedicalRecordMetier {
 		}
 		if (medicalRecordList.isEmpty()) {
 			logger.info("The list of its medical record of " + firstName + " " + lastName + ", you want to get, is empty !");
-			throw new RuntimeException(
+			throw new Exception(
 					"The list of its medical record of " + firstName + " " + lastName + ", you want to get, is empty !");
 		}
 		return medicalRecordList;
@@ -112,7 +112,7 @@ public class MedicalRecordMetierImpl implements IMedicalRecordMetier {
 		} else {
 			logger.info("the medical record you want to add of " + medicalRecord.getFirstName() + " "
 					+ medicalRecord.getLastName() + " , already exists !");
-			throw new RuntimeException("the medical record you want to add of " + medicalRecord.getFirstName() + " "
+			throw new Exception("the medical record you want to add of " + medicalRecord.getFirstName() + " "
 					+ medicalRecord.getLastName() + " , already exists !");
 		}
 	}
@@ -153,7 +153,7 @@ public class MedicalRecordMetierImpl implements IMedicalRecordMetier {
 			return medicalRecordRepository.updateMedicalRecord(index, medicalRecordFound);
 		} else {
 			logger.info("The medical record you want to update of " + firstName + " " + lastName + " does not exist !");
-			throw new RuntimeException(
+			throw new Exception(
 					"The medical record you want to update of " + firstName + " " + lastName + " does not exist !");
 		}
 	}
@@ -184,7 +184,7 @@ public class MedicalRecordMetierImpl implements IMedicalRecordMetier {
 			return;
 		} else {
 			logger.info("The medical record you want to delete of " + firstName + " " + lastName + " does not exist !");
-			throw new RuntimeException(
+			throw new Exception(
 					"The medical record you want to delete of " + firstName + " " + lastName + " does not exist !");
 		}
 	}

@@ -48,8 +48,7 @@ public class PersonMetierImpl implements IPersonMetier {
 			return personRepository.getPerson(index);
 		} else {
 			logger.info("The person " + firstName + " " + lastName + ", you want to get, does not exist !");
-			throw new RuntimeException(
-					"The person " + firstName + " " + lastName + ", you want to get, does not exist !");
+			throw new Exception("The person " + firstName + " " + lastName + ", you want to get, does not exist !");
 		}
 
 	}
@@ -81,8 +80,7 @@ public class PersonMetierImpl implements IPersonMetier {
 		}
 		if (personList.isEmpty()) {
 			logger.info("The list of person " + firstName + " " + lastName + ", you want to get, is empty !");
-			throw new RuntimeException(
-					"The list of person " + firstName + " " + lastName + ", you want to get, is empty !");
+			throw new Exception("The list of person " + firstName + " " + lastName + ", you want to get, is empty !");
 		}
 		return personList;
 
@@ -108,7 +106,7 @@ public class PersonMetierImpl implements IPersonMetier {
 		} else {
 			logger.info("The person " + person.getFirstName() + " " + person.getLastName()
 					+ " you want to add, already exists !");
-			throw new RuntimeException("The person " + person.getFirstName() + " " + person.getLastName()
+			throw new Exception("The person " + person.getFirstName() + " " + person.getLastName()
 					+ " you want to add, already exists !");
 		}
 	}
@@ -132,7 +130,6 @@ public class PersonMetierImpl implements IPersonMetier {
 		Person personFound = null;
 		if (personMap.size() > 0) {
 			index = personMap.keySet().stream().findFirst().get();
-//			Person personFound = personMap.entrySet().stream().findFirst().get(); //ne fonctionne pas!!
 			personFound = personMap.get(index);
 
 			String address = personDto.getAddress();
@@ -149,8 +146,7 @@ public class PersonMetierImpl implements IPersonMetier {
 			return personRepository.updatePerson(index, personFound);
 		} else {
 			logger.info("The person " + firstName + " " + lastName + " you want to update, does not exist !");
-			throw new RuntimeException(
-					"The person " + firstName + " " + lastName + " you want to update, does not exist !");
+			throw new Exception("The person " + firstName + " " + lastName + " you want to update, does not exist !");
 		}
 
 	}
@@ -175,8 +171,7 @@ public class PersonMetierImpl implements IPersonMetier {
 			return;
 		} else {
 			logger.info("The person " + firstName + " " + lastName + " you want to delete, does not exist !");
-			throw new RuntimeException(
-					"The person " + firstName + " " + lastName + " you want to delete, does not exist !");
+			throw new Exception("The person " + firstName + " " + lastName + " you want to delete, does not exist !");
 		}
 	}
 
